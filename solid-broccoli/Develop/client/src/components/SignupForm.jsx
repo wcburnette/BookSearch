@@ -1,47 +1,53 @@
-import { useState } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
+// Import necessary hooks and components
+import { useState } from 'react'; // React hook for managing state
+import { Form, Button, Alert } from 'react-bootstrap'; // Bootstrap components for form layout
 
-import { createUser } from '../utils/API';
-import Auth from '../utils/auth';
+import { createUser } from '../utils/API'; // Import the API function for creating a user
+import Auth from '../utils/auth'; // Import authentication utilities
 
+// Define the SignupForm component
 const SignupForm = () => {
-  // set initial form state
+  // Set initial form state for username, email, and password
   const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
-  // set state for form validation
+  // Set state for form validation (initially not validated)
   const [validated] = useState(false);
-  // set state for alert
+  // Set state for alert visibility (initially hidden)
   const [showAlert, setShowAlert] = useState(false);
 
+  // Handle input changes and update userFormData state
   const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setUserFormData({ ...userFormData, [name]: value });
+    const { name, value } = event.target; // Destructure name and value from event target
+    setUserFormData({ ...userFormData, [name]: value }); // Update the state with the new value
   };
 
+  // Handle form submission
   const handleFormSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent default form submission behavior
 
-    // check if form has everything (as per react-bootstrap docs)
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
+    // Check if form has valid input (as per react-bootstrap docs)
+    const form = event.currentTarget; // Get the current form
+    if (form.checkValidity() === false) { // If form is invalid
+      event.preventDefault(); // Prevent form submission
+      event.stopPropagation(); // Stop event propagation
     }
 
     try {
+      // Call createUser function with userFormData
       const response = await createUser(userFormData);
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
+      if (!response.ok) { // If the response is not okay
+        throw new Error('something went wrong!'); // Throw an error
       }
 
-      const { token, user } = await response.json();
-      console.log(user);
-      Auth.login(token);
-    } catch (err) {
-      console.error(err);
-      setShowAlert(true);
+      const { token, user } = await response.json(); // Parse the response JSON
+      console.log(user); // Log the user data
+      Auth.login(token); // Log the user in using the token
+    } catch (err) { // Catch any errors
+      console.error(err); // Log the error
+      setShowAlert(true); // Show alert for signup failure
     }
 
+    // Reset form data after submission
     setUserFormData({
       username: '',
       email: '',
@@ -53,11 +59,12 @@ const SignupForm = () => {
     <>
       {/* This is needed for the validation functionality above */}
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
-        {/* show alert if server response is bad */}
+        {/* Show alert if server response is bad */}
         <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
           Something went wrong with your signup!
         </Alert>
 
+        {/* Username input field */}
         <Form.Group className='mb-3'>
           <Form.Label htmlFor='username'>Username</Form.Label>
           <Form.Control
@@ -71,6 +78,7 @@ const SignupForm = () => {
           <Form.Control.Feedback type='invalid'>Username is required!</Form.Control.Feedback>
         </Form.Group>
 
+        {/* Email input field */}
         <Form.Group className='mb-3'>
           <Form.Label htmlFor='email'>Email</Form.Label>
           <Form.Control
@@ -84,6 +92,7 @@ const SignupForm = () => {
           <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
         </Form.Group>
 
+        {/* Password input field */}
         <Form.Group className='mb-3'>
           <Form.Label htmlFor='password'>Password</Form.Label>
           <Form.Control
@@ -96,6 +105,8 @@ const SignupForm = () => {
           />
           <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
         </Form.Group>
+        
+        {/* Submit button, disabled if fields are not filled */}
         <Button
           disabled={!(userFormData.username && userFormData.email && userFormData.password)}
           type='submit'
@@ -107,4 +118,5 @@ const SignupForm = () => {
   );
 };
 
+// Export the SignupForm component
 export default SignupForm;

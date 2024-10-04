@@ -1,57 +1,62 @@
-// route to get logged in user's info (needs the token)
+const serverUrl = 'http://localhost:3001'; // Adjust to your server's URL
+
+// Function to log in a user
+export const loginUser = async (userData) => {
+  return await fetch(`${serverUrl}/api/users/login`, { // Updated to use correct endpoint
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(userData),
+  });
+};
+
+// Function to create a new user
+export const createUser = async (userData) => {
+  return await fetch(`${serverUrl}/api/users`, { // Correct endpoint for signup
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(userData),
+  });
+};
+
+// Route to get the logged-in user's information (needs the token)
 export const getMe = (token) => {
-  return fetch('/api/users/me', {
+  return fetch(`${serverUrl}/api/users/me`, {
     headers: {
-      'Content-Type': 'application/json',
-      authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json', // Specify the content type
+      authorization: `Bearer ${token}`, // Include the token in the authorization header
     },
   });
 };
 
-export const createUser = (userData) => {
-  return fetch('/api/users', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userData),
-  });
-};
-
-export const loginUser = (userData) => {
-  return fetch('/api/users/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userData),
-  });
-};
-
-// save book data for a logged in user
+// Save book data for a logged-in user
 export const saveBook = (bookData, token) => {
-  return fetch('/api/users', {
-    method: 'PUT',
+  return fetch(`${serverUrl}/api/users`, {
+    method: 'PUT', // Set the request method to PUT
     headers: {
-      'Content-Type': 'application/json',
-      authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json', // Specify the content type
+      authorization: `Bearer ${token}`, // Include the token in the authorization header
     },
-    body: JSON.stringify(bookData),
+    body: JSON.stringify(bookData), // Convert book data to JSON format
   });
 };
 
-// remove saved book data for a logged in user
+// Remove saved book data for a logged-in user
 export const deleteBook = (bookId, token) => {
-  return fetch(`/api/users/books/${bookId}`, {
-    method: 'DELETE',
+  return fetch(`${serverUrl}/api/users/books/${bookId}`, {
+    method: 'DELETE', // Set the request method to DELETE
     headers: {
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${token}`, // Include the token in the authorization header
     },
   });
 };
 
-// make a search to google books api
-// https://www.googleapis.com/books/v1/volumes?q=harry+potter
+// Make a search request to the Google Books API
 export const searchGoogleBooks = (query) => {
-  return fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`);
+  return fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`); // Fetch from the Google Books API with the query
 };
+
+
