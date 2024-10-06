@@ -1,0 +1,21 @@
+/* Set the default font for the body of the document */
+body {
+  font-family: 'Rubik', sans-serif; /* Use 'Rubik' font with sans-serif as a fallback */
+}
+
+/* Set font styles for all heading elements (h1 through h6) */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Rubik Mono One', sans-serif; /* Use 'Rubik Mono One' font with sans-serif fallback */
+}
+
+/* Style for elements with the class 'small' */
+.small {
+  font-weight: 300; /* Light font weight */
+  font-style: italic; /* Italicize the text */
+}
+
