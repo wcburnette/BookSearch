@@ -37,6 +37,8 @@ const server = new ApolloServer({
     const token = req.headers.authorization || ''; // Extract token from the authorization header
     return { token, user: authMiddleware(req) }; // Attach user data to context using your auth middleware
   },
+  persistedQueries: false, // Disable persisted queries to avoid memory exhaustion
+  cache: "bounded" // Bound the cache to limit memory usage
 });
 
 // Create an async function to start the server and connect to MongoDB
@@ -65,3 +67,4 @@ const startServer = async () => {
 
 // Call the async function to start the server
 startServer();
+
