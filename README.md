@@ -79,4 +79,4 @@ This project is licensed under the MIT License.
 
 1. **Repository URL**:`https://github.com/wcburnette/BookSearch.git` 
 
-2. **Render Deployment Link**:`https://booksearch-6b2v.onrender.com`
+2. **Render Deployment Link**: 'https://booksearch-kwoy.onrender.com' & 'https://booksearch-1-ckom.onrender.com'
