@@ -56,9 +56,9 @@ const startServer = async () => {
     console.log('MongoDB connected successfully'); // Log success message
 
     // Start the server after the database connection is established
-    app.listen(PORT, () => {
-      console.log(`🌍 Now listening on localhost:${PORT}`); // Log server listening message
-      console.log(`🚀 GraphQL server ready at http://localhost:${PORT}${server.graphqlPath}`); // Log GraphQL server ready message
+    app.listen(PORT, '0.0.0.0', () => {  // Change 'localhost' to '0.0.0.0'
+      console.log(`🌍 Now listening on 0.0.0.0:${PORT}`); // Log server listening message
+      console.log(`🚀 GraphQL server ready at http://0.0.0.0:${PORT}${server.graphqlPath}`); // Log GraphQL server ready message
     });
   } catch (err) {
     console.error('MongoDB connection error:', err); // Log any errors that occur during connection
@@ -67,4 +67,3 @@ const startServer = async () => {
 
 // Call the async function to start the server
 startServer();
-
